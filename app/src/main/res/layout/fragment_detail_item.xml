@@ -82,16 +82,26 @@
                 app:layout_constraintStart_toEndOf="@+id/detail_item_date_text"
                 app:layout_constraintTop_toTopOf="@+id/detail_item_date_text"
                 app:layout_constraintBottom_toBottomOf="@+id/detail_item_date_text" android:layout_marginStart="5dp"/>
+
         <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_cancel_gray_24dp"
-                android:id="@+id/detail_item_attachment_image" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@id/detail_item_message_text"
-                android:layout_marginStart="12dp" android:layout_marginEnd="6dp"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true" android:maxHeight="150dp" android:layout_marginTop="7dp"
-                app:shapeAppearanceOverlay="@style/roundedCornersImageView" android:visibility="visible"
-                android:layout_marginBottom="3dp" app:layout_constraintBottom_toTopOf="@id/detail_item_tags_text"/>
+            android:id="@+id/detail_item_attachment_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="3dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/detail_item_tags_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_item_message_text"
+            app:shapeAppearanceOverlay="@style/roundedCornersImageView"
+            app:srcCompat="@drawable/ic_cancel_gray_24dp"
+            tools:srcCompat="@tools:sample/avatars" />
         <TextView
                 android:text="Tags: ssh, zfs"
                 android:layout_width="0dp"

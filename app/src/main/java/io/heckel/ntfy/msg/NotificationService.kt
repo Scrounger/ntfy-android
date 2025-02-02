@@ -104,8 +104,8 @@ class NotificationService(val context: Context) {
         maybeSetDeleteIntent(builder, insistent)
         maybeSetSound(builder, insistent, update)
         maybeSetProgress(builder, notification)
-        maybeAddOpenAction(builder, notification)
-        maybeAddBrowseAction(builder, notification)
+        //maybeAddOpenAction(builder, notification)
+        //maybeAddBrowseAction(builder, notification)
         maybeAddDownloadAction(builder, notification)
         maybeAddCancelAction(builder, notification)
         maybeAddUserActions(builder, notification)
@@ -113,6 +113,8 @@ class NotificationService(val context: Context) {
         maybeCreateNotificationGroup(groupId, subscriptionGroupName(subscription))
         maybeCreateNotificationChannel(groupId, notification.priority)
         maybePlayInsistentSound(groupId, insistent)
+
+
 
         notificationManager.notify(notification.notificationId, builder.build())
     }

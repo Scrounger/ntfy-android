@@ -6,6 +6,7 @@ import io.heckel.ntfy.db.Action
 import io.heckel.ntfy.db.Attachment
 import io.heckel.ntfy.db.Icon
 import io.heckel.ntfy.db.Notification
+import io.heckel.ntfy.util.Log
 import io.heckel.ntfy.util.joinTags
 import io.heckel.ntfy.util.toPriority
 import java.lang.reflect.Type
@@ -14,15 +15,21 @@ class NotificationParser {
     private val gson = Gson()
 
     fun parse(s: String, subscriptionId: Long = 0, notificationId: Int = 0): Notification? {
-        val notificationWithTopic = parseWithTopic(s, subscriptionId = subscriptionId, notificationId = notificationId)
+        val notificationWithTopic =
+            parseWithTopic(s, subscriptionId = subscriptionId, notificationId = notificationId)
         return notificationWithTopic?.notification
     }
 
-    fun parseWithTopic(s: String, subscriptionId: Long = 0, notificationId: Int = 0): NotificationWithTopic? {
+    fun parseWithTopic(
+        s: String,
+        subscriptionId: Long = 0,
+        notificationId: Int = 0
+    ): NotificationWithTopic? {
         val message = gson.fromJson(s, Message::class.java)
         if (message.event != ApiService.EVENT_MESSAGE) {
             return null
         }
+
         val attachment = if (message.attachment?.url != null) {
             Attachment(
                 name = message.attachment.name,
@@ -50,13 +57,23 @@ class NotificationParser {
                 )
             }
         } else null
-        val icon: Icon? = if (message.icon != null && message.icon != "") Icon(url = message.icon) else null
+        val icon: Icon? =
+            if (message.icon != null && message.icon != "") Icon(url = message.icon) else null
+
+        var myId: String = "";
+        var myMessage = message.message
+        if (message.message.contains("\"id\":")) {
+            val tmp = gson.fromJson(message.message, MyMessage::class.java)
+            myId = tmp.id
+            myMessage = tmp.msg
+        }
+
         val notification = Notification(
-            id = message.id,
+            id = if (myId != "") myId else message.id,
             subscriptionId = subscriptionId,
             timestamp = message.time,
             title = message.title ?: "",
-            message = message.message,
+            message = myMessage,
             encoding = message.encoding ?: "",
             priority = toPriority(message.priority),
             tags = joinTags(message.tags),
@@ -64,7 +81,7 @@ class NotificationParser {
             icon = icon,
             actions = actions,
             attachment = attachment,
-            notificationId = notificationId,
+            notificationId = if (myId != "") myId.hashCode() else notificationId,
             deleted = false
         )
         return NotificationWithTopic(message.topic, notification)

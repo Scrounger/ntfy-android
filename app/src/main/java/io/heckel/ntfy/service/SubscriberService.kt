@@ -261,9 +261,15 @@ class SubscriberService : Service() {
         val url = topicUrl(subscription.baseUrl, subscription.topic)
         Log.d(TAG, "[$url] Received notification: $notification")
         GlobalScope.launch(Dispatchers.IO) {
-            if (repository.addNotification(notification)) {
-                Log.d(TAG, "[$url] Dispatching notification $notification")
-                dispatcher.dispatch(subscription, notification)
+            if (repository.getNotification(notification.id) != null) {
+                Log.d(TAG, "[$url] Updating notification $notification")
+                repository.updateNotification(notification)
+                dispatcher.dispatch(subscription, notification, false)
+            } else {
+                if (repository.addNotification(notification)) {
+                    Log.d(TAG, "[$url] Dispatching notification $notification")
+                    dispatcher.dispatch(subscription, notification)
+                }
             }
             wakeLock?.let {
                 if (it.isHeld) {

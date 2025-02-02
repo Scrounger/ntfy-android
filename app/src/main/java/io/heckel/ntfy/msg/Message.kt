@@ -22,6 +22,12 @@ data class Message(
 )
 
 @Keep
+data class MyMessage(
+    val id: String,
+    val msg: String
+)
+
+@Keep
 data class MessageAttachment(
     val name: String,
     val type: String?,

@@ -22,7 +22,7 @@ class NotificationDispatcher(val context: Context, val repository: Repository) {
         notifier.createDefaultNotificationChannels()
     }
 
-    fun dispatch(subscription: Subscription, notification: Notification) {
+    fun dispatch(subscription: Subscription, notification: Notification, allowNotify: Boolean = true) {
         Log.d(TAG, "Dispatching $notification for subscription $subscription")
 
         val muted = getMuted(subscription)
@@ -31,7 +31,7 @@ class NotificationDispatcher(val context: Context, val repository: Repository) {
         val distribute = shouldDistribute(subscription)
         val downloadAttachment = shouldDownloadAttachment(notification)
         val downloadIcon = shouldDownloadIcon(notification)
-        if (notify) {
+        if (notify && allowNotify) {
             notifier.display(subscription, notification)
         }
         if (broadcast) {

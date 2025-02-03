@@ -122,14 +122,16 @@ class Repository(private val sharedPrefs: SharedPreferences, private val databas
 
     fun onlyNewNotifications(subscriptionId: Long, notifications: List<Notification>): List<Notification> {
         val existingIds = notificationDao.listIds(subscriptionId)
-        return notifications.filterNot { existingIds.contains(it.id) }
+        val existingNotificationIds = notificationDao.listNotificationIds(subscriptionId)
+        return notifications.filterNot { existingIds.contains(it.id) || existingNotificationIds.contains(it.notificationId) }
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun addNotification(notification: Notification): Boolean {
         val maybeExistingNotification = notificationDao.get(notification.id)
-        if (maybeExistingNotification != null) {
+        val maybeExistingNotificationId = notificationDao.getByNotificationId(notification.notificationId)
+        if (maybeExistingNotification != null || maybeExistingNotificationId != null) {
             return false
         }
         subscriptionDao.updateLastNotificationId(notification.subscriptionId, notification.id)

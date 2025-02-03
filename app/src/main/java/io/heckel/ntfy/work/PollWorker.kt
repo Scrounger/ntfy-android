@@ -49,8 +49,9 @@ class PollWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
                     )
                     val newNotifications = repository
                         .onlyNewNotifications(subscription.id, notifications)
-                        .map { it.copy(notificationId = Random.nextInt()) }
+                        .map { if(it.notificationId == 0) it.copy(notificationId = Random.nextInt()) else it }
                     newNotifications.forEach { notification ->
+                        Log.w(TAG, "hier")
                         if (repository.addNotification(notification)) {
                             dispatcher.dispatch(subscription, notification)
                         }

@@ -423,6 +423,9 @@ interface NotificationDao {
     @Query("SELECT id FROM notification WHERE subscriptionId = :subscriptionId") // Includes deleted
     fun listIds(subscriptionId: Long): List<String>
 
+    @Query("SELECT notificationId FROM notification WHERE subscriptionId = :subscriptionId") // Includes deleted
+    fun listNotificationIds(subscriptionId: Long): List<Int>
+
     @Query("SELECT * FROM notification WHERE deleted = 1 AND attachment_contentUri <> ''")
     fun listDeletedWithAttachments(): List<Notification>
 

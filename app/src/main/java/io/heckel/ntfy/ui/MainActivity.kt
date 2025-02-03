@@ -522,7 +522,7 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback, AddFragment.Subsc
                     val newNotifications = repository.onlyNewNotifications(subscription.id, notifications)
                     newNotifications.forEach { notification ->
                         newNotificationsCount++
-                        val notificationWithId = notification.copy(notificationId = Random.nextInt())
+                        val notificationWithId = if (notification.notificationId == 0) notification.copy(notificationId = Random.nextInt()) else notification
                         if (repository.addNotification(notificationWithId)) {
                             dispatcher?.dispatch(subscription, notificationWithId)
                         }

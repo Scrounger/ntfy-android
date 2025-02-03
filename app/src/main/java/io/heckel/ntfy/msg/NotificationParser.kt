@@ -6,7 +6,6 @@ import io.heckel.ntfy.db.Action
 import io.heckel.ntfy.db.Attachment
 import io.heckel.ntfy.db.Icon
 import io.heckel.ntfy.db.Notification
-import io.heckel.ntfy.util.Log
 import io.heckel.ntfy.util.joinTags
 import io.heckel.ntfy.util.toPriority
 import java.lang.reflect.Type
@@ -69,7 +68,7 @@ class NotificationParser {
         }
 
         val notification = Notification(
-            id = if (myId != "") myId else message.id,
+            id = message.id,
             subscriptionId = subscriptionId,
             timestamp = message.time,
             title = message.title ?: "",

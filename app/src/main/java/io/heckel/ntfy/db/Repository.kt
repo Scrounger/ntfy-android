@@ -116,6 +116,10 @@ class Repository(private val sharedPrefs: SharedPreferences, private val databas
         return notificationDao.get(notificationId)
     }
 
+    fun getNotificationById(notificationId: Int): Notification? {
+        return notificationDao.getByNotificationId(notificationId)
+    }
+
     fun onlyNewNotifications(subscriptionId: Long, notifications: List<Notification>): List<Notification> {
         val existingIds = notificationDao.listIds(subscriptionId)
         return notifications.filterNot { existingIds.contains(it.id) }

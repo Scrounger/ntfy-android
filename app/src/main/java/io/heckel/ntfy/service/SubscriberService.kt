@@ -22,6 +22,7 @@ import io.heckel.ntfy.msg.NotificationDispatcher
 import io.heckel.ntfy.ui.Colors
 import io.heckel.ntfy.ui.MainActivity
 import io.heckel.ntfy.util.Log
+import io.heckel.ntfy.util.toPriority
 import io.heckel.ntfy.util.topicUrl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -261,10 +262,29 @@ class SubscriberService : Service() {
         val url = topicUrl(subscription.baseUrl, subscription.topic)
         Log.d(TAG, "[$url] Received notification: $notification")
         GlobalScope.launch(Dispatchers.IO) {
-            if (repository.getNotification(notification.id) != null) {
-                Log.d(TAG, "[$url] Updating notification $notification")
-                repository.updateNotification(notification)
-                dispatcher.dispatch(subscription, notification, false)
+            val existingNotification = repository.getNotificationById(notification.notificationId);
+
+            if (existingNotification != null) {
+                // notification exists, update it using the existing id
+                val updatedNotification = io.heckel.ntfy.db.Notification(
+                    id = existingNotification.id,
+                    subscriptionId = notification.subscriptionId,
+                    timestamp = notification.timestamp,
+                    title = notification.title ?: "",
+                    message = notification.message,
+                    encoding = notification.encoding ?: "",
+                    priority = toPriority(notification.priority),
+                    tags = notification.tags,
+                    click = notification.click ?: "",
+                    icon = notification.icon,
+                    actions = notification.actions,
+                    attachment = notification.attachment,
+                    notificationId = notification.notificationId,
+                    deleted = false
+                )
+                Log.d(TAG, "[$url] Updating notification $updatedNotification")
+                repository.updateNotification(updatedNotification)
+                dispatcher.dispatch(subscription, updatedNotification, false)
             } else {
                 if (repository.addNotification(notification)) {
                     Log.d(TAG, "[$url] Dispatching notification $notification")

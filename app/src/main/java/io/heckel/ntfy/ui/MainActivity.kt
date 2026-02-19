@@ -678,7 +678,9 @@ class MainActivity : AppCompatActivity(), AddFragment.SubscribeListener, Notific
             displayName = null,
             totalCount = 0,
             newCount = 0,
-            lastActive = Date().time/1000
+            lastActive = Date().time/1000,
+            imageLayout = Repository.IMAGE_LAYOUT_DEFAULT,
+            linkHandler = Repository.LINK_HANDLER_DEFAULT
         )
         viewModel.add(subscription)
 

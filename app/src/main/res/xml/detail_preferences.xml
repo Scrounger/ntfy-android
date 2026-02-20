@@ -85,6 +85,21 @@
                 app:isPreferenceVisible="false"/>
     </PreferenceCategory>
     <PreferenceCategory
+        app:key="@string/detail_settings_appearance_notification_header_key"
+        app:title="@string/detail_settings_appearance_notification_header">
+        <MultiSelectListPreference
+            app:key="@string/detail_settings_appearance_notification_buttons_key"
+            app:title="@string/detail_settings_appearance_notification_buttons_title"
+            app:summary="@string/detail_settings_appearance_notification_buttons_summary"
+            app:defaultValue="@array/detail_settings_appearance_notification_buttons_default_values"
+            app:entries="@array/detail_settings_appearance_notification_buttons_entries"
+            app:entryValues="@array/detail_settings_appearance_notification_buttons_values"
+            app:dialogTitle="@string/detail_settings_appearance_notification_buttons_summary"
+            app:singleLine="false"
+            app:isPreferenceVisible="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:key="@string/detail_settings_about_header_key"
         app:title="@string/detail_settings_about_header">
         <Preference

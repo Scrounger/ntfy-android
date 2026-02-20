@@ -120,6 +120,7 @@ class Backuper(val context: Context) {
                     displayName = s.displayName,
                     layout = s.layout ?: Repository.LAYOUT_DEFAULT,
                     linkHandler = s.linkHandler ?: Repository.LINK_HANDLER_DEFAULT,
+                    notificationButtons = s.notificationButtons ?: Repository.NOTIFICATION_BUTTONS_DEFAULT
                 )
                 repository.addSubscription(subscription)
 
@@ -302,7 +303,8 @@ class Backuper(val context: Context) {
                 upConnectorToken = s.upConnectorToken,
                 displayName = s.displayName,
                 layout = s.layout,
-                linkHandler = s.linkHandler
+                linkHandler = s.linkHandler,
+                notificationButtons = s.notificationButtons
             )
         }
     }
@@ -445,6 +447,7 @@ data class Subscription(
     val displayName: String?,
     val layout: Int?,
     val linkHandler: String?,
+    val notificationButtons: String?,
 )
 
 data class Notification(

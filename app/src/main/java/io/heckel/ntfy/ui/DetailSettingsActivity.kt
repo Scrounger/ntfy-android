@@ -166,6 +166,7 @@ class DetailSettingsActivity : AppCompatActivity() {
                 loadOpenChannelsPrefs()
                 loadLayoutPref()
                 loadLinkHandlerPref()
+                loadNotificationButtonsPref()
             } else {
                 val notificationsHeaderId = context?.getString(R.string.detail_settings_notifications_header_key) ?: return
                 val notificationsHeader: PreferenceCategory? = findPreference(notificationsHeaderId)
@@ -507,6 +508,38 @@ class DetailSettingsActivity : AppCompatActivity() {
 
                 // linkHandler-Werte aufsplitten und mit den entsprechenden Einträgen verbinden
                 subscription.linkHandler.split("|").mapNotNull { value ->
+                    values.indexOf(value).takeIf { it != -1 }?.let { entries[it] }
+                }.joinToString(", ") ?: ""
+            }
+        }
+
+        private fun loadNotificationButtonsPref() {
+            val prefId = context?.getString(R.string.detail_settings_appearance_notification_buttons_key) ?: return
+            val pref: MultiSelectListPreference? = findPreference(prefId)
+            pref?.isVisible = true // Hack: Show all settings at once, because subscription is loaded asynchronously
+            pref?.values = subscription.notificationButtons.split("|").toSet()
+
+            pref?.preferenceDataStore = object : PreferenceDataStore() {
+                override fun putStringSet(key: String?, values: Set<String>?) {
+                    val valueString = values?.joinToString("|") ?: return
+                    val cleanedValueString = if (valueString.startsWith("|")) valueString.substring(1) else valueString
+
+                    save(subscription.copy(notificationButtons = cleanedValueString))
+                }
+                override fun getStringSet(key: String?, defValues: Set<String>?): Set<String> {
+                    val savedValue = subscription.notificationButtons
+                    val cleanedValue = if (savedValue.startsWith("|")) savedValue.substring(1) else savedValue
+
+                    return cleanedValue.split("|").toSet()
+                }
+            }
+            pref?.summaryProvider = Preference.SummaryProvider<MultiSelectListPreference> { preference ->
+                // Holen der Werte aus den Arrays
+                val entries = preference.context.resources.getStringArray(R.array.detail_settings_appearance_notification_buttons_entries)
+                val values = preference.context.resources.getStringArray(R.array.detail_settings_appearance_notification_buttons_values)
+
+                // linkHandler-Werte aufsplitten und mit den entsprechenden Einträgen verbinden
+                subscription.notificationButtons.split("|").mapNotNull { value ->
                     values.indexOf(value).takeIf { it != -1 }?.let { entries[it] }
                 }.joinToString(", ") ?: ""
             }

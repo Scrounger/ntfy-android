@@ -238,7 +238,8 @@ class DetailActivity : AppCompatActivity(), NotificationFragment.NotificationSet
                     newCount = 0,
                     lastActive = Date().time/1000,
                     layout = Repository.LAYOUT_DEFAULT,
-                    linkHandler = Repository.LINK_HANDLER_DEFAULT
+                    linkHandler = Repository.LINK_HANDLER_DEFAULT,
+                    notificationButtons = Repository.NOTIFICATION_BUTTONS_DEFAULT
                 )
                 repository.addSubscription(subscription)
 

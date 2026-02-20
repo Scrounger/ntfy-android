@@ -60,12 +60,22 @@
     </string-array>
     <string name="detail_settings_appearance_link_handler_key" translatable="false">SubscriptionLinkHandler</string>
     <string-array name="detail_settings_appearance_link_handler_values">
-        <item>web</item> <!-- Same as Repository.INSISTENT_MAX_PRIORITY_USE_GLOBAL -->
+        <item>web</item>
         <item>phone</item>
         <item>mail</item>
     </string-array>
     <string-array name="detail_settings_appearance_link_handler_default_values">
-        <item>web</item> <!-- Same as Repository.INSISTENT_MAX_PRIORITY_USE_GLOBAL -->
+        <item>web</item>
+    </string-array>
+    <string name="detail_settings_appearance_notification_header_key" translatable="false">SubscriptionAppearanceNotification</string>
+    <string name="detail_settings_appearance_notification_buttons_key" translatable="false">SubscriptionNotificationButtons</string>
+    <string-array name="detail_settings_appearance_notification_buttons_values">
+        <item>open</item>
+        <item>browse</item>
+    </string-array>
+    <string-array name="detail_settings_appearance_notification_buttons_default_values">
+        <item>open</item>
+        <item>browse</item>
     </string-array>
 
     <!-- Main settings -->

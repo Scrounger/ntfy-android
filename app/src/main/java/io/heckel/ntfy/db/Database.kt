@@ -44,7 +44,7 @@ data class Subscription(
     @ColumnInfo(name = "upConnectorToken") val upConnectorToken: String?, // UnifiedPush connector token
     @ColumnInfo(name = "displayName") val displayName: String?,
     @ColumnInfo(name = "dedicatedChannels") val dedicatedChannels: Boolean,
-    @ColumnInfo(name = "imageLayout") val imageLayout: Int,
+    @ColumnInfo(name = "layout") val layout: Int,
     @ColumnInfo(name = "linkHandler") val linkHandler: String,
     @Ignore val totalCount: Int = 0, // Total notifications
     @Ignore val newCount: Int = 0, // New notifications
@@ -66,7 +66,7 @@ data class Subscription(
         upConnectorToken: String,
         displayName: String?,
         dedicatedChannels: Boolean,
-        imageLayout: Int,
+        layout: Int,
         linkHandler: String,
     ) :
             this(
@@ -84,7 +84,7 @@ data class Subscription(
                 upConnectorToken,
                 displayName,
                 dedicatedChannels,
-                imageLayout,
+                layout,
                 linkHandler,
                 totalCount = 0,
                 newCount = 0,
@@ -142,7 +142,7 @@ data class SubscriptionWithMetadata(
     val upConnectorToken: String?,
     val displayName: String?,
     val dedicatedChannels: Boolean,
-    val imageLayout: Int,
+    val layout: Int,
     val linkHandler: String,
     val totalCount: Int,
     val newCount: Int,
@@ -496,7 +496,7 @@ abstract class Database : RoomDatabase() {
 
         private val MIGRATION_18_19 = object : Migration(18, 19) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE Subscription ADD COLUMN imageLayout INT NOT NULL DEFAULT (0)")
+                db.execSQL("ALTER TABLE Subscription ADD COLUMN layout INT NOT NULL DEFAULT (0)")
                 db.execSQL("ALTER TABLE Subscription ADD COLUMN linkHandler TEXT NOT NULL DEFAULT ''")
             }
         }
@@ -508,7 +508,7 @@ abstract class Database : RoomDatabase() {
 interface SubscriptionDao {
     @Query("""
         SELECT 
-          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.imageLayout, s.linkHandler,
+          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.layout, s.linkHandler,
           COUNT(n.id) totalCount, 
           COUNT(CASE n.notificationId WHEN 0 THEN NULL ELSE n.id END) newCount, 
           IFNULL(MAX(n.timestamp),0) AS lastActive
@@ -521,7 +521,7 @@ interface SubscriptionDao {
 
     @Query("""
         SELECT 
-          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.imageLayout, s.linkHandler,
+          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.layout, s.linkHandler,
           COUNT(n.id) totalCount, 
           COUNT(CASE n.notificationId WHEN 0 THEN NULL ELSE n.id END) newCount, 
           IFNULL(MAX(n.timestamp),0) AS lastActive
@@ -534,7 +534,7 @@ interface SubscriptionDao {
 
     @Query("""
         SELECT 
-          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.imageLayout, s.linkHandler,
+          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.layout, s.linkHandler,
           COUNT(n.id) totalCount, 
           COUNT(CASE n.notificationId WHEN 0 THEN NULL ELSE n.id END) newCount, 
           IFNULL(MAX(n.timestamp),0) AS lastActive
@@ -547,7 +547,7 @@ interface SubscriptionDao {
 
     @Query("""
         SELECT 
-          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.imageLayout, s.linkHandler,
+          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.layout, s.linkHandler,
           COUNT(n.id) totalCount, 
           COUNT(CASE n.notificationId WHEN 0 THEN NULL ELSE n.id END) newCount, 
           IFNULL(MAX(n.timestamp),0) AS lastActive
@@ -560,7 +560,7 @@ interface SubscriptionDao {
 
     @Query("""
         SELECT 
-          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.imageLayout, s.linkHandler,
+          s.id, s.baseUrl, s.topic, s.instant, s.mutedUntil, s.minPriority, s.autoDelete, s.insistent, s.lastNotificationId, s.icon, s.upAppId, s.upConnectorToken, s.displayName, s.dedicatedChannels, s.layout, s.linkHandler,
           COUNT(n.id) totalCount, 
           COUNT(CASE n.notificationId WHEN 0 THEN NULL ELSE n.id END) newCount, 
           IFNULL(MAX(n.timestamp),0) AS lastActive

@@ -164,7 +164,7 @@ class DetailSettingsActivity : AppCompatActivity() {
                 loadIconRemovePref()
                 loadDedicatedChannelsPrefs()
                 loadOpenChannelsPrefs()
-                loadImageLayoutPref()
+                loadLayoutPref()
                 loadLinkHandlerPref()
             } else {
                 val notificationsHeaderId = context?.getString(R.string.detail_settings_notifications_header_key) ?: return
@@ -459,24 +459,24 @@ class DetailSettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun loadImageLayoutPref() {
-            val prefId = context?.getString(R.string.detail_settings_appearance_image_layout_key) ?: return
+        private fun loadLayoutPref() {
+            val prefId = context?.getString(R.string.detail_settings_appearance_layout_key) ?: return
             val pref: ListPreference? = findPreference(prefId)
             pref?.isVisible = true // Hack: Show all settings at once, because subscription is loaded asynchronously
-            pref?.value = subscription.imageLayout.toString()
+            pref?.value = subscription.layout.toString()
 
             pref?.preferenceDataStore = object : PreferenceDataStore() {
                 override fun putString(key: String?, value: String?) {
-                    val imageLayoutValue = value?.toIntOrNull() ?:return
-                    save(subscription.copy(imageLayout = imageLayoutValue))
+                    val layoutValue = value?.toIntOrNull() ?:return
+                    save(subscription.copy(layout = layoutValue))
                 }
                 override fun getString(key: String?, defValue: String?): String {
-                    return subscription.imageLayout.toString()
+                    return subscription.layout.toString()
                 }
             }
             pref?.summaryProvider = Preference.SummaryProvider<ListPreference> {
-                val layoutEntries = resources.getStringArray(R.array.detail_settings_appearance_image_layout_entries)
-                layoutEntries[subscription.imageLayout]
+                val layoutEntries = resources.getStringArray(R.array.detail_settings_appearance_layout_entries)
+                layoutEntries[subscription.layout]
             }
         }
 

@@ -118,7 +118,7 @@ class Backuper(val context: Context) {
                     upAppId = s.upAppId,
                     upConnectorToken = s.upConnectorToken,
                     displayName = s.displayName,
-                    imageLayout = s.imageLayout ?: Repository.IMAGE_LAYOUT_DEFAULT,
+                    layout = s.layout ?: Repository.LAYOUT_DEFAULT,
                     linkHandler = s.linkHandler ?: Repository.LINK_HANDLER_DEFAULT,
                 )
                 repository.addSubscription(subscription)
@@ -301,7 +301,7 @@ class Backuper(val context: Context) {
                 upAppId = s.upAppId,
                 upConnectorToken = s.upConnectorToken,
                 displayName = s.displayName,
-                imageLayout = s.imageLayout,
+                layout = s.layout,
                 linkHandler = s.linkHandler
             )
         }
@@ -443,7 +443,7 @@ data class Subscription(
     val upAppId: String?,
     val upConnectorToken: String?,
     val displayName: String?,
-    val imageLayout: Int?,
+    val layout: Int?,
     val linkHandler: String?,
 )
 

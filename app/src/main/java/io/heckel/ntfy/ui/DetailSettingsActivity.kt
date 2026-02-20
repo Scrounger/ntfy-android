@@ -500,8 +500,15 @@ class DetailSettingsActivity : AppCompatActivity() {
                     return cleanedValue.split("|").toSet()
                 }
             }
-            pref?.summaryProvider = Preference.SummaryProvider<MultiSelectListPreference> {
-                subscription.linkHandler
+            pref?.summaryProvider = Preference.SummaryProvider<MultiSelectListPreference> { preference ->
+                // Holen der Werte aus den Arrays
+                val entries = preference.context.resources.getStringArray(R.array.detail_settings_appearance_link_handler_entries)
+                val values = preference.context.resources.getStringArray(R.array.detail_settings_appearance_link_handler_values)
+
+                // linkHandler-Werte aufsplitten und mit den entsprechenden Einträgen verbinden
+                subscription.linkHandler.split("|").mapNotNull { value ->
+                    values.indexOf(value).takeIf { it != -1 }?.let { entries[it] }
+                }.joinToString(", ") ?: ""
             }
         }
 

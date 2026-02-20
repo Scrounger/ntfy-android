@@ -131,7 +131,7 @@ fun normalizeBaseUrl(url: String): String {
 
 fun formatDateShort(timestampSecs: Long): String {
     val date = Date(timestampSecs*1000)
-    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
+    return android.text.format.DateFormat.format("E dd.MM. - HH:mm:ss", date).toString()
 }
 
 fun toPriority(priority: Int?): Int {

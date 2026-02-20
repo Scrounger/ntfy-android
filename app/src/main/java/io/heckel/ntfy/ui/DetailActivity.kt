@@ -83,6 +83,8 @@ class DetailActivity : AppCompatActivity(), NotificationFragment.NotificationSet
     private var subscriptionTopic: String = "" // Set in onCreate()
     private var subscriptionDisplayName: String = "" // Set in onCreate() & updated by options menu!
     private var subscriptionMutedUntil: Long = 0L // Set in onCreate() & updated by options menu!
+    private var subscriptionLayout: Int = Repository.LAYOUT_DEFAULT
+    private var subscriptionLinkHandler: String = Repository.LINK_HANDLER_DEFAULT
 
     // UI elements
     private lateinit var adapter: DetailAdapter
@@ -266,6 +268,8 @@ class DetailActivity : AppCompatActivity(), NotificationFragment.NotificationSet
             intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_DISPLAY_NAME, displayName(appBaseUrl, subscription))
             intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_INSTANT, subscription.instant)
             intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_MUTED_UNTIL, subscription.mutedUntil)
+            intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_LAYOUT, subscription.layout)
+            intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_LINK_HANDLER, subscription.linkHandler)
 
             runOnUiThread {
                 loadView()
@@ -287,6 +291,8 @@ class DetailActivity : AppCompatActivity(), NotificationFragment.NotificationSet
         subscriptionTopic = intent.getStringExtra(MainActivity.EXTRA_SUBSCRIPTION_TOPIC) ?: return
         subscriptionDisplayName = intent.getStringExtra(MainActivity.EXTRA_SUBSCRIPTION_DISPLAY_NAME) ?: return
         subscriptionMutedUntil = intent.getLongExtra(MainActivity.EXTRA_SUBSCRIPTION_MUTED_UNTIL, 0L)
+        subscriptionLayout = intent.getIntExtra(MainActivity.EXTRA_SUBSCRIPTION_LAYOUT, Repository.LAYOUT_DEFAULT)
+        subscriptionLinkHandler = intent.getStringExtra(MainActivity.EXTRA_SUBSCRIPTION_LINK_HANDLER) ?: return
 
         // Set title
         val subscriptionBaseUrl = intent.getStringExtra(MainActivity.EXTRA_SUBSCRIPTION_BASE_URL) ?: return
@@ -542,6 +548,15 @@ class DetailActivity : AppCompatActivity(), NotificationFragment.NotificationSet
 
             showHideMenuItems()
             updateTitle(subscriptionDisplayName)
+
+            if(subscriptionLayout != subscription.layout || subscriptionLinkHandler != subscription.linkHandler){
+                intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_LAYOUT, subscription.layout)
+                intent.putExtra(MainActivity.EXTRA_SUBSCRIPTION_LINK_HANDLER, subscription.linkHandler)
+
+                runOnUiThread {
+                    loadView()
+                }
+            }
         }
     }
 

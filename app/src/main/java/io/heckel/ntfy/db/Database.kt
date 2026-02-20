@@ -497,7 +497,7 @@ abstract class Database : RoomDatabase() {
         private val MIGRATION_18_19 = object : Migration(18, 19) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE Subscription ADD COLUMN layout INT NOT NULL DEFAULT (0)")
-                db.execSQL("ALTER TABLE Subscription ADD COLUMN linkHandler TEXT NOT NULL DEFAULT ''")
+                db.execSQL("ALTER TABLE Subscription ADD COLUMN linkHandler TEXT NOT NULL DEFAULT 'web'")
             }
         }
 
